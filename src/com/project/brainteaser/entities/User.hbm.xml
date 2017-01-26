@@ -1,6 +1,6 @@
 <hibernate-mapping package="com.project.brainteaser.entities">
 <class name="User" table="USER">
-<id name="id" column="USER_ID">
+<id name="userId" column="USER_ID">
 <generator class="native"/>
 </id>
 <property name="firstname"/>

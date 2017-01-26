@@ -2,30 +2,40 @@ package com.project.brainteaser.entities;
 
 public class Question {
 
-	private int id;
-	private int lang_id;
+	private int quesId;
+	private Language language;
 	private String level;
 	
 	public Question(){}
 	
-	public int getId() {
-		return id;
+
+	public int getQuesId() {
+		return quesId;
 	}
-	public void setId(int id) {
-		this.id = id;
+
+	public void setQuesId(int quesId) {
+		this.quesId = quesId;
 	}
-	public int getLang_id() {
-		return lang_id;
+
+	
+	public Language getLanguage() {
+		return language;
 	}
-	public void setLang_id(int lang_id) {
-		this.lang_id = lang_id;
+
+
+	public void setLanguage(Language language) {
+		this.language = language;
 	}
+
+
 	public String getLevel() {
 		return level;
 	}
+
 	public void setLevel(String level) {
 		this.level = level;
 	}
+	
 	
 	
 }

@@ -20,6 +20,8 @@
         <property name="hibernate.current_session_context_class">thread</property>
         
         <mapping resource="com/project/brainteaser/entities/User.hbm.xml"/>
+        <mapping resource="com/project/brainteaser/entities/Language.hbm.xml"/>
+        <mapping resource="com/project/brainteaser/entities/Question.hbm.xml"/>
        
     </session-factory>
 </hibernate-configuration>

@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class User {
 	
-	private int id;
+	private int userId;
 	private String firstname;
 	private String lastname;
 	private double experience;
@@ -42,15 +42,18 @@ public class User {
 	
 	
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public String getFirstname() {
 		return firstname;
 	}
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}

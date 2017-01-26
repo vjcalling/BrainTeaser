@@ -1,0 +1,9 @@
+<hibernate-mapping package="com.project.brainteaser.entities">
+<class name="Language" table="LANGUAGE">
+<id name="langId" column="LANG_ID">
+<generator class="native"/>
+</id>
+<property name="name"/>
+
+</class>
+</hibernate-mapping>

@@ -1,0 +1,13 @@
+<hibernate-mapping package="com.project.brainteaser.entities">
+	<class name="Question" table="QUESTION">
+		<id name="quesId" column="QUES_ID">
+			<generator class="native" />
+		</id>
+		
+		<many-to-one name="language" class="com.project.brainteaser.entities.Language" fetch="select">
+            <column name="LANG_ID" not-null="true" />
+        </many-to-one>
+        
+		<property name="level" />
+	</class>
+</hibernate-mapping>
