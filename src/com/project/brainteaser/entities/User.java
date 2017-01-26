@@ -11,6 +11,22 @@ public class User {
 	private double experience;
 	private String level;
 	
+	public User(){}
+	
+	public User(String firstname, String lastname, double experience){
+		
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.experience = experience;
+		
+		if(this.experience > 0 && this.experience < 3)
+			this.setLevel("Fresher");
+		else if(this.experience >= 3 && this.experience < 8)
+			this.setLevel("Moderate");
+		else if(this.experience >= 8)
+			this.setLevel("Experienced");
+		
+	}
 	public String getLevel() {
 		return level;
 	}
@@ -24,7 +40,7 @@ public class User {
 	}
 	private Set<Language> languages = new HashSet<Language>();
 	
-	public User(){}
+	
 	
 	public int getId() {
 		return id;
