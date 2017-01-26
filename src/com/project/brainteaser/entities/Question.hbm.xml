@@ -9,5 +9,6 @@
         </many-to-one>
         
 		<property name="level" />
+		<property name="questionDescription" />
 	</class>
 </hibernate-mapping>

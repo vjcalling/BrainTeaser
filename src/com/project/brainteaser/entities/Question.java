@@ -5,7 +5,17 @@ public class Question {
 	private int quesId;
 	private Language language;
 	private String level;
+	private String questionDescription;
 	
+	public String getQuestionDescription() {
+		return questionDescription;
+	}
+
+	public void setQuestionDescription(String questionDescription) {
+		this.questionDescription = questionDescription;
+	}
+
+
 	public Question(){}
 	
 

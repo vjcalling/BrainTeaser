@@ -2,8 +2,24 @@ package com.project.brainteaser.entities;
 
 public class Answer {
 	
-	private int id;
-	private int ques_id;
+	private int answerId;
+	private Question question;
+	
+	public int getAnswerId() {
+		return answerId;
+	}
+
+	public void setAnswerId(int answerId) {
+		this.answerId = answerId;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
 	private String optionA;
 	private String optionB;
 	private String optionC;
@@ -13,18 +29,24 @@ public class Answer {
 	
 	public Answer(){}
 	
+	public Answer(Question question, String optionA, String optionB, String optionC, String optionD, String solution ){
+		
+		this.question = question;
+		this.optionA = optionA;
+		this.optionB = optionB;
+		this.optionC = optionC;
+		this.optionD = optionD;
+		this.solution = solution;
+		
+	}
+	
 	public int getId() {
-		return id;
+		return answerId;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.answerId = id;
 	}
-	public int getQues_id() {
-		return ques_id;
-	}
-	public void setQues_id(int ques_id) {
-		this.ques_id = ques_id;
-	}
+	
 	public String getOptionA() {
 		return optionA;
 	}

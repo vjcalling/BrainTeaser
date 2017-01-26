@@ -1,0 +1,16 @@
+<hibernate-mapping package="com.project.brainteaser.entities">
+	<class name="Answer" table="ANSWER">
+		<id name="answerId" column="ANS_ID">
+			<generator class="native" />
+		</id>
+		
+		<one-to-one name="question" class="com.project.brainteaser.entities.Question" cascade="all"/>
+        <property name="optionA" />
+        <property name="optionB" />
+        <property name="optionC" />
+        <property name="optionD" />
+        <property name="solution" />
+        
+        
+	</class>
+</hibernate-mapping>
