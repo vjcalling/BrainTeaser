@@ -4,24 +4,35 @@ import java.util.Date;
 
 public class Quiz {
 
-	private int id;
-	private int user_id;
+	private int quizId;
+	private User user;
 	private Date timestamp;
 	
 	public Quiz(){}
 	
-	public int getId() {
-		return id;
+	public Quiz(User user, Date timestamp){
+		this.user = user;
+		this.timestamp = timestamp;
 	}
-	public void setId(int id) {
-		this.id = id;
+	
+	
+	
+	public int getQuizId() {
+		return quizId;
 	}
-	public int getUser_id() {
-		return user_id;
+
+	public void setQuizId(int quizId) {
+		this.quizId = quizId;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+
+	public User getUser() {
+		return user;
 	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public Date getTimestamp() {
 		return timestamp;
 	}

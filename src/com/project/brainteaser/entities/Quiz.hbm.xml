@@ -1,0 +1,11 @@
+<hibernate-mapping package="com.project.brainteaser.entities">
+	<class name="Quiz" table="QUIZ">
+		<id name="quizId" column="QUIZ_ID">
+			<generator class="native" />
+		</id>
+		
+		<one-to-one name="user" class="com.project.brainteaser.entities.User" cascade="all"/>
+        <property name="timestamp" />
+        
+	</class>
+</hibernate-mapping>

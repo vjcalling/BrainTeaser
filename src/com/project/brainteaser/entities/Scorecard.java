@@ -2,41 +2,57 @@ package com.project.brainteaser.entities;
 
 public class Scorecard {
 
-	private int id;
-	private int quiz_id;
-	private int user_id;
+	private int scorecardId;
+	private Quiz quiz;
+	private User user;
 	private double percentage;
 	private String remarks;
 	
 	public Scorecard(){}
+
+	public Scorecard(Quiz quiz, User user, double percentage, String remarks){
+		this.quiz = quiz;
+		this.user = user;
+		this.percentage = percentage;
+		this.remarks = remarks;
+	}
 	
-	public int getId() {
-		return id;
+	public int getScorecardId() {
+		return scorecardId;
 	}
-	public void setId(int id) {
-		this.id = id;
+
+	public void setScorecardId(int scorecardId) {
+		this.scorecardId = scorecardId;
 	}
-	public int getQuiz_id() {
-		return quiz_id;
+
+	public Quiz getQuiz() {
+		return quiz;
 	}
-	public void setQuiz_id(int quiz_id) {
-		this.quiz_id = quiz_id;
+
+	public void setQuiz(Quiz quiz) {
+		this.quiz = quiz;
 	}
-	public int getUser_id() {
-		return user_id;
+
+	public User getUser() {
+		return user;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+
+	public void setUser(User user) {
+		this.user = user;
 	}
+
 	public double getPercentage() {
 		return percentage;
 	}
+
 	public void setPercentage(double percentage) {
 		this.percentage = percentage;
 	}
+
 	public String getRemarks() {
 		return remarks;
 	}
+
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}

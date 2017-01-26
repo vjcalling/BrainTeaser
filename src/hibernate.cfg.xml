@@ -23,6 +23,8 @@
         <mapping resource="com/project/brainteaser/entities/Language.hbm.xml"/>
         <mapping resource="com/project/brainteaser/entities/Question.hbm.xml"/>
         <mapping resource="com/project/brainteaser/entities/Answer.hbm.xml"/>
+        <mapping resource="com/project/brainteaser/entities/Quiz.hbm.xml"/>
+        <mapping resource="com/project/brainteaser/entities/Scorecard.hbm.xml"/>
        
     </session-factory>
 </hibernate-configuration>

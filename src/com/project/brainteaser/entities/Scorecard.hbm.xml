@@ -1,0 +1,14 @@
+<hibernate-mapping package="com.project.brainteaser.entities">
+	<class name="Scorecard" table="SCORECARD">
+		<id name="scorecardId" column="SCORECARD_ID">
+			<generator class="native" />
+		</id>
+		
+		<one-to-one name="user" class="com.project.brainteaser.entities.User" cascade="all"/>
+		<one-to-one name="quiz" class="com.project.brainteaser.entities.Quiz" cascade="all"/>
+		
+        <property name="percentage" />
+        <property name="remarks" />
+        
+	</class>
+</hibernate-mapping>
