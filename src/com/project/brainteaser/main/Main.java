@@ -3,10 +3,13 @@ package com.project.brainteaser.main;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.Session;
+
 import com.project.brainteaser.entities.Language;
 import com.project.brainteaser.entities.Quiz;
 import com.project.brainteaser.entities.User;
 import com.project.brainteaser.test.Utilities;
+import com.project.brainteaser.util.HibernateUtil;
 
 public class Main {
 
@@ -93,15 +96,21 @@ public class Main {
 		
 		//-------------------------------------------------------------------------------------
 		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		
 		Utilities util = new Utilities();
-		User user = new User("Manoj", "Kumar", 2.5);
-		Set<Language> languages = new HashSet<Language>();
-		languages.add(new Language("Java"));
-		
-		Quiz quiz = util.generateQuiz(user, languages);
-		util.displayQuizContent(quiz);
 		
 		
+		util.addDummyData(session);
+		
+//		User user = util.getUser("vibhjain", session);
+//		System.out.println(user.getFirstname());
+		
+		
+		session.getTransaction().commit();
+		HibernateUtil.getSessionFactory().close();
+				
 	}
 
 }

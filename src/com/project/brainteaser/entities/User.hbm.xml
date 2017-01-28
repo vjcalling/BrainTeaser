@@ -7,6 +7,7 @@
 <property name="lastname"/>
 <property name="experience"/>
 <property name="level"/>
+<property name="username" unique="true"/>
 
 </class>
 </hibernate-mapping>

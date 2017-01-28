@@ -10,6 +10,7 @@ public class User {
 	private String lastname;
 	private double experience;
 	private String level;
+	private String username;
 
 
 //--------------------------------------------------------------------------------------------------------
@@ -18,17 +19,26 @@ public class User {
 
 //--------------------------------------------------------------------------------------------------------
 		
-	public User(String firstname, String lastname, double experience){
+	public User(String firstname, String lastname, double experience, String username){
 		
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.experience = experience;
+		this.username = username;
 		this.calculateLevel();
 		
 	}
 	
 //--------------------------------------------------------------------------------------------------------
 	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	public void calculateLevel(){
 	
 		if(this.experience > 0 && this.experience < 3)
