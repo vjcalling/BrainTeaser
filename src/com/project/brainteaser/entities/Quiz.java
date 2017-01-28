@@ -1,11 +1,22 @@
 package com.project.brainteaser.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Quiz {
 
 	private int quizId;
 	private User user;
+	private Set<Question> questions = new HashSet<Question>();
+	
+	public Set<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(Set<Question> questions) {
+		this.questions = questions;
+	}
 	private Date timestamp;
 	
 	public Quiz(){}
