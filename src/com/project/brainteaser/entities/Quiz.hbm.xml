@@ -4,8 +4,9 @@
 			<generator class="native" />
 		</id>
 
-		<one-to-one name="user" class="com.project.brainteaser.entities.User"
-			cascade="all" />
+		<one-to-one name="user" class="com.project.brainteaser.entities.User" cascade="all" />
+		<one-to-one name="scorecard" class="com.project.brainteaser.entities.Scorecard" cascade="all" />
+		
 		<property name="timestamp" />
 
 		<set name="questions" table="ques_quizzes"

@@ -1,12 +1,14 @@
 package com.project.brainteaser.main;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.Session;
 
 import com.project.brainteaser.entities.Language;
 import com.project.brainteaser.entities.Quiz;
+import com.project.brainteaser.entities.Scorecard;
 import com.project.brainteaser.entities.User;
 import com.project.brainteaser.test.Utilities;
 import com.project.brainteaser.util.HibernateUtil;
@@ -102,10 +104,22 @@ public class Main {
 		Utilities util = new Utilities();
 		
 		
-		util.addDummyData(session);
+//		util.addDummyData(session);
 		
-//		User user = util.getUser("vibhjain", session);
+		User user = util.getUser("manosingh", session);
+		Set<Language> languages = new HashSet<Language>();
+		languages.add(new Language("Java"));
+		languages.add(new Language("SQL"));
+		String questionLevel = "Easy";
 //		System.out.println(user.getFirstname());
+		
+		
+		Quiz quiz = util.generateQuiz(user, languages, questionLevel, session);
+		Map<Integer, String> solutionsMapping = util.executeQuizContest(quiz);
+		Scorecard scorecard = util.generateScorecardForQuiz(quiz, user, solutionsMapping, session);
+		
+		session.save(quiz);
+		session.save(scorecard);
 		
 		
 		session.getTransaction().commit();

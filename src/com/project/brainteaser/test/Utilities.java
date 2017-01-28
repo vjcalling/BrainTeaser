@@ -1,19 +1,26 @@
 package com.project.brainteaser.test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 
 import com.project.brainteaser.entities.Answer;
 import com.project.brainteaser.entities.Language;
 import com.project.brainteaser.entities.Question;
 import com.project.brainteaser.entities.Quiz;
+import com.project.brainteaser.entities.Scorecard;
 import com.project.brainteaser.entities.User;
 
 public class Utilities {
@@ -24,17 +31,20 @@ public class Utilities {
 
 		Quiz quiz = new Quiz(user, new Date());
 
+		Disjunction or = Restrictions.disjunction();
 		Criteria cr = session.createCriteria(Question.class,"ques")
 				.createAlias("ques.language","language")
 				.add(Restrictions.eq("ques.level", questionLevel));
 
+		
 		Iterator<Language> it = languages.iterator();
 		while(it.hasNext()){
 			Language lang = (Language)it.next();
-			cr.add(Restrictions.eq("language.name", lang.getName()));
+			or.add(Restrictions.eq("language.name", lang.getName()));
 		}
 
-
+		cr.add(or);
+		
 		List<Question> questions = cr.list();		
 
 		Set<Question> questionSet = new HashSet<Question>();
@@ -52,12 +62,19 @@ public class Utilities {
 
 	//----------------------------------------------------------------------------------------------------------------
 
-	public void displayQuizContent(Quiz quiz){
+	public Map<Integer, String> executeQuizContest(Quiz quiz){
+
+		InputStreamReader r=new InputStreamReader(System.in);  
+		BufferedReader br=new BufferedReader(r);  
+		
+		Map<Integer, String> solutionMapping = new HashMap<Integer, String>();
+		
+		System.out.println("===========================================\n");
 
 		System.out.println("Username: "+quiz.getUser().getFirstname()+" "+quiz.getUser().getLastname());
 		System.out.println("Experience: "+quiz.getUser().getExperience()+" years ("+quiz.getUser().getLevel()+")");
 
-		System.out.println("===========================================");
+		System.out.println("===========================================\n");
 
 		Set<Question> questionsSet = quiz.getQuestions();
 		Iterator it = questionsSet.iterator();
@@ -71,11 +88,51 @@ public class Utilities {
 			System.out.println("B) "+q.getAnswer().getOptionB());
 			System.out.println("C) "+q.getAnswer().getOptionC());
 			System.out.println("D) "+q.getAnswer().getOptionD());
-			System.out.println("---------------------------------------");
+			System.out.println("\n---------------------------------------\n");
+			System.out.print("Enter your choice: ");
+			try {
+				String choice = br.readLine();
+				choice = this.populateChoice(choice, q);
+				solutionMapping.put(q.getQuesId(), choice);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
+		
+		return solutionMapping;
 
 	}
 
+	//----------------------------------------------------------------------------------------------------------------
+	
+	public String populateChoice(String option, Question q){
+		
+		String choice = null;
+		
+		switch(option){
+		
+		case "A": 
+			choice = q.getAnswer().getOptionA();
+			break;
+		case "B": 
+			choice = q.getAnswer().getOptionB();
+			break;
+		case "C": 
+			choice = q.getAnswer().getOptionC();
+			break;
+		case "D": 
+			choice = q.getAnswer().getOptionD();
+			break;
+		default:
+			System.out.println("Invalid option");
+			break;
+		}
+		
+		return choice;
+	}
+	
 	//----------------------------------------------------------------------------------------------------------------
 
 	public void addDummyData(Session session){
@@ -206,4 +263,41 @@ public class Utilities {
 	
 //----------------------------------------------------------------------------------------------------------------
 
+	public Scorecard generateScorecardForQuiz(Quiz quiz, User user, Map<Integer, String> solutionsMapping, Session session){
+		
+		int totalQues = solutionsMapping.size();
+		int correctAnswers = 0;
+		double percentage;
+		
+		Iterator it = solutionsMapping.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        Integer quesId = (Integer)pair.getKey();
+	        String answer = (String)pair.getValue();
+	        String solution = this.getSolutionForQuestionID(quesId, session);
+	        
+	        if(answer.equals(solution))
+	        	correctAnswers++;
+	    }
+	    
+	    percentage = ((double)(correctAnswers))/(totalQues)*100;
+	    
+	    Scorecard scorecard = new Scorecard(quiz, user, percentage, "Good job!");
+		return scorecard;
+	}
+	
+//----------------------------------------------------------------------------------------------------------------
+
+	public String getSolutionForQuestionID(Integer quesId, Session session){
+		
+		String solution = null;
+		Criteria cr = session.createCriteria(Question.class);
+		cr.add(Restrictions.eq("quesId", quesId));
+		List question = cr.list();		
+		Question q = (Question)question.iterator().next();
+		Answer a = q.getAnswer();
+		solution = a.getSolution();
+		
+		return solution;
+	}
 }

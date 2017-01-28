@@ -8,6 +8,15 @@ public class Quiz {
 
 	private int quizId;
 	private User user;
+	private Scorecard scorecard;
+	
+	public Scorecard getScorecard() {
+		return scorecard;
+	}
+
+	public void setScorecard(Scorecard scorecard) {
+		this.scorecard = scorecard;
+	}
 	private Set<Question> questions = new HashSet<Question>();
 	
 	public Set<Question> getQuestions() {
