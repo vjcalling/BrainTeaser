@@ -10,6 +10,15 @@ public class Question {
 	private String level;
 	private String questionDescription;
 	private Set<Question> quizzes = new HashSet<Question>();
+	private Answer answer;
+	
+	public Answer getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
 
 	public Set<Question> getQuizzes() {
 		return quizzes;

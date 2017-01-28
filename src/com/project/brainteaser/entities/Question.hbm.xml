@@ -4,6 +4,8 @@
 			<generator class="native" />
 		</id>
 		
+		<one-to-one name="answer" class="com.project.brainteaser.entities.Answer" cascade="all"/>
+		
 		<many-to-one name="language" class="com.project.brainteaser.entities.Language" fetch="select">
             <column name="LANG_ID" not-null="true" />
         </many-to-one>
