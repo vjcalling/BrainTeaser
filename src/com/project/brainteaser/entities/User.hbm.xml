@@ -1,13 +1,21 @@
 <hibernate-mapping package="com.project.brainteaser.entities">
-<class name="User" table="USER">
-<id name="userId" column="USER_ID">
-<generator class="native"/>
-</id>
-<property name="firstname"/>
-<property name="lastname"/>
-<property name="experience"/>
-<property name="level"/>
-<property name="username" unique="true"/>
+	<class name="User" table="USER">
+		<id name="userId" column="USER_ID">
+			<generator class="native" />
+		</id>
+		<property name="firstname" />
+		<property name="lastname" />
+		<property name="experience" />
+		<property name="level" />
+		<property name="username" unique="true" />
 
-</class>
+		<set name="quizzes" table="Quiz" inverse="true"
+			lazy="true" fetch="select">
+			<key>
+				<column name="USER_ID" not-null="true" />
+			</key>
+			<one-to-many class="com.project.brainteaser.entities.Quiz" />
+		</set>
+
+	</class>
 </hibernate-mapping>

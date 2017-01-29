@@ -4,20 +4,25 @@
 			<generator class="native" />
 		</id>
 
-		<one-to-one name="user" class="com.project.brainteaser.entities.User" cascade="all" />
-		<one-to-one name="scorecard" class="com.project.brainteaser.entities.Scorecard" cascade="all" />
-		
+		<one-to-one name="scorecard"
+			class="com.project.brainteaser.entities.Scorecard" cascade="all" />
+
 		<property name="timestamp" />
 
-		<set name="questions" table="ques_quizzes"
-        	inverse="false" lazy="true" fetch="select" cascade="all" >
-            <key>
-                <column name="QUES_ID" not-null="true" />
-            </key>
-            <many-to-many entity-name="com.project.brainteaser.entities.Question">
-                <column name="QUIZ_ID" not-null="true" />
-            </many-to-many>
-        </set>
+		<set name="questions" table="ques_quizzes" inverse="false" lazy="true"
+			fetch="select" cascade="all">
+			<key>
+				<column name="QUES_ID" not-null="true" />
+			</key>
+			<many-to-many entity-name="com.project.brainteaser.entities.Question">
+				<column name="QUIZ_ID" not-null="true" />
+			</many-to-many>
+		</set>
 
+		<many-to-one name="user" class="com.project.brainteaser.entities.User"
+			fetch="select">
+			<column name="USER_ID" not-null="true" />
+		</many-to-one>
+		
 	</class>
 </hibernate-mapping>

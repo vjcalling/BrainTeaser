@@ -11,10 +11,19 @@ public class User {
 	private double experience;
 	private String level;
 	private String username;
+	private Set<Quiz> quizzes = new HashSet<Quiz>();
 
 
 //--------------------------------------------------------------------------------------------------------
 		
+	public Set<Quiz> getQuizzes() {
+		return quizzes;
+	}
+
+	public void setQuizzes(Set<Quiz> quizzes) {
+		this.quizzes = quizzes;
+	}
+
 	public User(){}	
 
 //--------------------------------------------------------------------------------------------------------
