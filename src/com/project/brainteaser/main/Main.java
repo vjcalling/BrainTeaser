@@ -116,7 +116,6 @@ public class Main {
 //		session.save(quiz);
 //		session.save(scorecard);
 		
-		
 		session.getTransaction().commit();
 		HibernateUtil.getSessionFactory().close();
 				
