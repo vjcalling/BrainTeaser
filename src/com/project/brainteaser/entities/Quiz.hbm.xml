@@ -12,10 +12,10 @@
 		<set name="questions" table="ques_quizzes" inverse="false" lazy="true"
 			fetch="select" cascade="all">
 			<key>
-				<column name="QUES_ID" not-null="true" />
+				<column name="QUIZ_ID" not-null="true" />
 			</key>
 			<many-to-many entity-name="com.project.brainteaser.entities.Question">
-				<column name="QUIZ_ID" not-null="true" />
+				<column name="QUES_ID" not-null="true" />
 			</many-to-many>
 		</set>
 
