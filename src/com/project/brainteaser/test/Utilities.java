@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 
@@ -36,7 +37,7 @@ public class Utilities {
 				.createAlias("ques.language","language")
 				.add(Restrictions.eq("ques.level", questionLevel));
 
-		
+
 		Iterator<Language> it = languages.iterator();
 		while(it.hasNext()){
 			Language lang = (Language)it.next();
@@ -44,7 +45,7 @@ public class Utilities {
 		}
 
 		cr.add(or);
-		
+
 		List<Question> questions = cr.list();		
 
 		Set<Question> questionSet = new HashSet<Question>();
@@ -66,9 +67,9 @@ public class Utilities {
 
 		InputStreamReader r=new InputStreamReader(System.in);  
 		BufferedReader br=new BufferedReader(r);  
-		
+
 		Map<Integer, String> solutionMapping = new HashMap<Integer, String>();
-		
+
 		System.out.println("===========================================\n");
 
 		System.out.println("Username: "+quiz.getUser().getFirstname()+" "+quiz.getUser().getLastname());
@@ -98,21 +99,21 @@ public class Utilities {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 		return solutionMapping;
 
 	}
 
 	//----------------------------------------------------------------------------------------------------------------
-	
+
 	public String populateChoice(String option, Question q){
-		
+
 		String choice = null;
-		
+
 		switch(option){
-		
+
 		case "A": 
 			choice = q.getAnswer().getOptionA();
 			break;
@@ -129,10 +130,10 @@ public class Utilities {
 			System.out.println("Invalid option");
 			break;
 		}
-		
+
 		return choice;
 	}
-	
+
 	//----------------------------------------------------------------------------------------------------------------
 
 	public void addDummyData(Session session){
@@ -197,45 +198,45 @@ public class Utilities {
 		Language language3 = new Language("C");
 		Language language4 = new Language("Javascript");
 		Language language5 = new Language("SQL");
-		
+
 		Question question1 = new Question();
 		question1.setLevel("Easy");
 		question1.setLanguage(language1);
 		question1.setQuestionDescription("Which one of these lists contains only Java programming language keywords?");
 		Answer answer1 = new Answer(question1, "class, if, void, long, Int, continue", "goto, instanceof, native, finally, default, throws", "try, virtual, throw, final, volatile, transient", "strictfp, constant, super, implements, do", "goto, instanceof, native, finally, default, throws");
-		
-		
+
+
 		Question question2 = new Question();
 		question2.setLevel("Medium");
 		question2.setLanguage(language2);
 		question2.setQuestionDescription("What is the output of the following? print('for'.isidentifier())");
 		Answer answer2 = new Answer(question2, "True", "False", "None", "Error", "True");
-		
-		
+
+
 		Question question3 = new Question();
 		question3.setLevel("Hard");
 		question3.setLanguage(language3);
 		question3.setQuestionDescription("Specify the 2 library functions to dynamically allocate memory?");
 		Answer answer3 = new Answer(question3, "malloc() and memalloc()", "alloc() and memalloc()", "malloc() and calloc()", "memalloc() and faralloc()", "malloc() and calloc()");
-		
+
 		Question question4 = new Question();
 		question4.setLevel("Medium");
 		question4.setLanguage(language4);
 		question4.setQuestionDescription(" Which of the following can't be done with client-side JavaScript?");
 		Answer answer4 = new Answer(question4, "Validating a form", "Sending a form's contents by email", "Storing the form's contents to a database file on the server", "None of the above", "Storing the form's contents to a database file on the server");
-		
+
 		Question question5 = new Question();
 		question5.setLevel("Easy");
 		question5.setLanguage(language5);
 		question5.setQuestionDescription("You can add a row using SQL in a database with which of the following?");
 		Answer answer5 = new Answer(question5, "ADD", "CREATE", "INSERT", "MAKE", "INSERT");
-		
+
 		session.save(language1);
 		session.save(language2);
 		session.save(language3);
 		session.save(language4);
 		session.save(language5);
-		
+
 		session.save(question1);
 		session.save(answer1);
 		session.save(question2);
@@ -246,50 +247,66 @@ public class Utilities {
 		session.save(answer4);
 		session.save(question5);
 		session.save(answer5);
-		
+
 
 	}
 
-//----------------------------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------------------------
 
 	public User getUser(String username, Session session){
+
+		Transaction tx = null;
+		User user = null;
+
+		try {
+			tx = session.beginTransaction();
+			Criteria cr = session.createCriteria(User.class);
+			cr.add(Restrictions.eq("username", username));
+			List questions = cr.list();		
+			user = (User)questions.iterator().next();
+			tx.commit();
+		}
+		catch (Exception e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			//session.close();
+		}
+
+
 		
-		Criteria cr = session.createCriteria(User.class);
-		cr.add(Restrictions.eq("username", username));
-		List questions = cr.list();		
-		User user = (User)questions.iterator().next();
 		return user;
 	}
-	
-//----------------------------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------------------------
 
 	public Scorecard generateScorecardForQuiz(Quiz quiz, User user, Map<Integer, String> solutionsMapping, Session session){
-		
+
 		int totalQues = solutionsMapping.size();
 		int correctAnswers = 0;
 		double percentage;
-		
+
 		Iterator it = solutionsMapping.entrySet().iterator();
-	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        Integer quesId = (Integer)pair.getKey();
-	        String answer = (String)pair.getValue();
-	        String solution = this.getSolutionForQuestionID(quesId, session);
-	        
-	        if(answer.equals(solution))
-	        	correctAnswers++;
-	    }
-	    
-	    percentage = ((double)(correctAnswers))/(totalQues)*100;
-	    
-	    Scorecard scorecard = new Scorecard(quiz, user, percentage, "Good job!");
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry)it.next();
+			Integer quesId = (Integer)pair.getKey();
+			String answer = (String)pair.getValue();
+			String solution = this.getSolutionForQuestionID(quesId, session);
+
+			if(answer.equals(solution))
+				correctAnswers++;
+		}
+
+		percentage = ((double)(correctAnswers))/(totalQues)*100;
+
+		Scorecard scorecard = new Scorecard(quiz, user, percentage, "Good job!");
 		return scorecard;
 	}
-	
-//----------------------------------------------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------------------------------------------
 
 	public String getSolutionForQuestionID(Integer quesId, Session session){
-		
+
 		String solution = null;
 		Criteria cr = session.createCriteria(Question.class);
 		cr.add(Restrictions.eq("quesId", quesId));
@@ -297,7 +314,7 @@ public class Utilities {
 		Question q = (Question)question.iterator().next();
 		Answer a = q.getAnswer();
 		solution = a.getSolution();
-		
+
 		return solution;
 	}
 }
